@@ -4,6 +4,8 @@
 
 ## Build Setup
 
+该项目是vue入门的练习作品,如有侵权,请联系邮箱,会立即删除
+
 ``` bash
 # install dependencies
 npm install
