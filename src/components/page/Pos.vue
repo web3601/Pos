@@ -11,11 +11,14 @@
               <el-table-column label='操作' width='100' fixed='right'>
                 <template slot-scope='scope'>
                   <el-button type='text' size='small'>删除</el-button>
-                  <el-button type='text' size='small'>增加</el-button>
+                  <el-button type='text' size='small' @click='addOrderList(scope.row)'>增加</el-button>
                 </template>
               </el-table-column>
               
             </el-table>
+            <div class='totaDiv'>
+            <small>数量:</small> {{totaCount}} &nbsp;&nbsp;<small>金额:</small> {{totaMoney}}元
+            </div>
             <div class='div-btn'>
               <el-button type='warning'>挂单</el-button>
               <el-button type='danger'>删除</el-button>
@@ -115,6 +118,8 @@ export default {
          type1Goods:[],
          type2Goods:[],
          type3Goods:[],
+         totaMoney:0,
+         totaCount:0,
     }
   },
   created:function(){
@@ -149,6 +154,8 @@ export default {
   },
   methods:{
     addOrderList(goods){
+      this.totaMoney=0;
+      this.totaCount=0;
       // 商品是否已存在于订单列表中
       let isHave=false;
       for(let i=0;i<this.tableData.length;i++){
@@ -164,6 +171,12 @@ export default {
         let newGoods = {goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1}
         this.tableData.push(newGoods);
       }
+
+// 计算汇总金额和数量
+      this.tableData.forEach((element)=>{
+        this.totaCount+=element.count;
+        this.totaMoney=this.totaMoney+(element.price*element.count)
+      })
     }
   }
 
@@ -172,6 +185,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.totaDiv{
+  background-color:#fff;
+  padding:10px;
+  border-bottom:1px solid #d3dce6;
+}
 .pos-order{
   background-color:#f9fafc;
   border-right:1px solid #c0ccda;
@@ -194,6 +212,7 @@ export default {
   margin:10px;
   background-color:#fff;
   border-radius:5px;
+  cursor:pointer;
 }
 .o-price{
   color:#58b7ff;
@@ -212,7 +231,7 @@ export default {
        padding: 2px;
        float:left;
        margin: 2px;
- 
+       cursor:pointer;
    }
    .cookList li span{
        
